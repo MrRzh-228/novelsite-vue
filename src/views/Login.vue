@@ -1,30 +1,41 @@
 <script setup>
 import router from '../router';
 import { login } from '../api';
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
-const loginForm = reactive ({
+const loginFormRef = ref()
+
+const loginForm = {
   telephone: '',
   password: '',
-})
-
-const onSubmit = () => {
-  // var params = window.JSON.stringify(loginDic)
-  login(loginForm)
-  .then(res => {
-    console.log(res)
-    let accesstoken = res["access"];
-    let refreshtoken = res["refresh"];
-    localStorage.setItem("accessToken", accesstoken);
-    localStorage.setItem("refreshToken", refreshtoken);
-    router.replace({
-      path: '/'
-    })
-    })
-  .catch(error => console.log(error))
 }
 
-const loginFormRules = {
+const loginFormData = ref({loginForm})
+
+
+const onSubmit = () => {
+  loginFormRef.value.validate((valid) => {
+    if(valid) {
+      login(loginFormData.value)
+      .then(res => {
+        console.log(res)
+        let accesstoken = res["access"];
+        let refreshtoken = res["refresh"];
+        localStorage.setItem("accessToken", accesstoken);
+        localStorage.setItem("refreshToken", refreshtoken);
+        router.replace({
+          path: '/'
+        })
+        })
+      .catch(error => console.log(error))
+    } else {
+      console.log('error submit')
+    }
+  })
+
+}
+
+const loginFormRules = ref({
   telephone: [
     { required: true, message: '请输入用户名/手机号码', trigger: 'blur' },
     { min: 3, max: 11, message: '长度在 3 到 11 个字符', trigger: 'blur' }
@@ -33,7 +44,7 @@ const loginFormRules = {
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
   ]
-}
+})
 </script>
  
 <template>
@@ -48,14 +59,14 @@ const loginFormRules = {
               <img src="../assets/logo.png" alt="" />
             </div>
             <!-- 登录表单区域 -->
-            <el-form label-width="0px" class="login_form" :model="loginForm" :rules="loginFormRules">
+            <el-form label-width="0px" class="login_form" ref="loginFormRef" :model="loginFormData" :rules="loginFormRules">
               <!-- 用户名 -->
               <el-form-item prop="telephone">
-                <el-input v-model="loginForm.telephone" placeholder="用户名/手机号" />
+                <el-input v-model="loginFormData.telephone" placeholder="用户名/手机号" />
               </el-form-item>
               <!-- 密码 -->
               <el-form-item prop="password">
-                <el-input type="password" v-model="loginForm.password" placeholder="密码" />
+                <el-input type="password" v-model="loginFormData.password" placeholder="密码" />
               </el-form-item>
               <!-- 按钮区域 -->
               <el-form-item class="login_btn">
