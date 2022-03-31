@@ -15,6 +15,14 @@ export function login(param) {
     })
 }
 
+export function code(param) {
+    return request({
+        url: "/users/code/",
+        method: "post",
+        data: param
+    })
+}
+
 export function register(param) {
     return request({
         url: "/users/register/",

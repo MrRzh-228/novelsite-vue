@@ -1,24 +1,59 @@
 <script setup>
 import router from '../router';
-import { register } from '../api';
-import { reactive } from 'vue'
+import { code, register } from '../api';
+import { ref } from 'vue'
 
-const registerForm = reactive ({
+const registerForm = ref()
+
+const registerFormObj = {
   telephone: '',
   username: '',
   password: '',
   code: ''
-})
+}
+
+const registerFormData = ref(registerFormObj)
 
 const getCode = () => {
-    alert("获取验证码")
+  registerForm.value.validateField('telephone', (error) => {
+    if (error) {
+      let teleObj = {telephone: registerFormObj.telephone}
+      code(teleObj)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(error => console.log(error))
+      alert("验证码发送成功")
+    } else {
+      alert("请输入正确的手机号")
+    }
+  }) 
 }
 
 const onSubmit = () => {
-    alert("注册成功")
+  registerForm.value.validate((valid) => {
+    if(valid) {
+      register(registerFormData.value)
+      .then(res => {
+        console.log(res);
+        let accesstoken = res && res.token && res.token.access;
+        let refreshtoken = res && res.token && res.token.refresh;
+        let userinfo = res && res.username
+        localStorage.setItem("accessToken", accesstoken);
+        localStorage.setItem("refreshToken", refreshtoken);
+        localStorage.setItem("userinfo", userinfo);
+        router.replace({
+          path: '/'
+        })
+      })
+      .catch(error => console.log(error))
+    } else {
+      console.log('error submit')
+    }
+  })
 }
 
-const registerFormRules = {
+const registerFormRules = ref({
   telephone: [
     { required: true, message: '请输入手机号', trigger: 'blur' },
     { min: 11, max: 11, message: '手机号格式错误', trigger: 'blur' }
@@ -33,9 +68,9 @@ const registerFormRules = {
   ],
   code: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
-    { min: 6, max: 6, message: '验证码格式错误', trigger: 'blur' }
+    { min: 4, max: 4, message: '验证码格式错误', trigger: 'blur' }
   ]
-}
+})
 </script>
  
 <template>
@@ -50,28 +85,28 @@ const registerFormRules = {
               <img src="../assets/logo.png" alt="" />
             </div> -->
             
-            <el-steps :active="2" finish-status="success" simple>
-                <el-step title="Step 1" />
-                <el-step title="Step 2" />
+            <el-steps :active="0" finish-status="success" simple>
+                <el-step title="填写注册信息" />
+                <el-step title="注册成功" />
             </el-steps>
 
             <!-- 登录表单区域 -->
-            <el-form label-width="0px" class="login_form" :model="registerForm" :rules="registerFormRules">
+            <el-form label-width="0px" class="login_form" ref="registerForm" :model="registerFormData" :rules="registerFormRules">
               <!-- 手机号 -->
               <el-form-item prop="telephone">
-                <el-input v-model="registerForm.telephone" placeholder="请输入手机号" />
+                <el-input v-model="registerFormData.telephone" placeholder="请输入手机号" />
               </el-form-item> 
               <!-- 用户名 -->
               <el-form-item prop="username">
-                <el-input v-model="registerForm.username" placeholder="请输入昵称" />
+                <el-input v-model="registerFormData.username" placeholder="请输入昵称" />
               </el-form-item>
               <!-- 密码 -->
               <el-form-item prop="password">
-                <el-input type="password" v-model="registerForm.password" placeholder="请输入密码" />
+                <el-input type="password" v-model="registerFormData.password" placeholder="请输入密码" />
               </el-form-item>
               <!-- 验证码 -->
               <el-form-item prop="code">
-                <el-input v-model="registerForm.code" placeholder="请输入短信验证码" >
+                <el-input v-model="registerFormData.code" placeholder="请输入短信验证码" >
                   <template #append>
                       <el-button @click="getCode">获取验证码</el-button>
                   </template>

@@ -1,8 +1,17 @@
 <script setup>
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+import router from '../router'
 
-const input = ref('')
+const input = ref('');
+const logout = () => {
+    window.localStorage.clear()
+    window.location.reload()
+    console.log(window.localStorage.getItem("userinfo"))
+}
+let userinfo = window.localStorage.getItem("userinfo");
+const isShow = !userinfo
+
 </script>
 
 <template>
@@ -34,7 +43,9 @@ const input = ref('')
       </el-col>
       <el-col :span="3">
           <div>
-            <router-link to="/login">登录/注册</router-link>
+            <router-link to="/login" v-if="isShow">登录/注册</router-link>         
+            <router-link to="/">{{ userinfo }}</router-link>
+            <el-button type="text" @click="logout" v-if="userinfo" style="color: black;">退出</el-button>
           </div>
       </el-col>
   </el-row>

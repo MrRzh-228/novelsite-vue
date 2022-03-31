@@ -1,28 +1,29 @@
 <script setup>
 import router from '../router';
 import { login } from '../api';
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 
-const loginFormRef = ref()
+const loginForm = ref()
 
-const loginForm = {
+const loginFormObj = {
   telephone: '',
   password: '',
 }
 
-const loginFormData = ref({loginForm})
-
+const loginFormData = ref({loginFormObj})
 
 const onSubmit = () => {
-  loginFormRef.value.validate((valid) => {
+  loginForm.value.validate((valid) => {
     if(valid) {
       login(loginFormData.value)
       .then(res => {
         console.log(res)
         let accesstoken = res["access"];
         let refreshtoken = res["refresh"];
+        let userinfo = res["username"];
         localStorage.setItem("accessToken", accesstoken);
         localStorage.setItem("refreshToken", refreshtoken);
+        localStorage.setItem("userinfo", userinfo);
         router.replace({
           path: '/'
         })
@@ -32,7 +33,6 @@ const onSubmit = () => {
       console.log('error submit')
     }
   })
-
 }
 
 const loginFormRules = ref({
@@ -59,7 +59,7 @@ const loginFormRules = ref({
               <img src="../assets/logo.png" alt="" />
             </div>
             <!-- 登录表单区域 -->
-            <el-form label-width="0px" class="login_form" ref="loginFormRef" :model="loginFormData" :rules="loginFormRules">
+            <el-form label-width="0px" class="login_form" ref="loginForm" :model="loginFormData" :rules="loginFormRules">
               <!-- 用户名 -->
               <el-form-item prop="telephone">
                 <el-input v-model="loginFormData.telephone" placeholder="用户名/手机号" />
