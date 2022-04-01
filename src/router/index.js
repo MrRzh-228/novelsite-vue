@@ -27,6 +27,15 @@ const routes = [
         },
         component: () => import("../views/Register.vue")
     },
+    {
+        path: "/xuanhuan",
+        name: "xuanhuan",
+        meta: {
+            title: "玄幻",
+            keepAlive: true
+        },
+        component: () => import("../views/CategoryInfo.vue")
+    },
 ];
 const router = createRouter({
     history: createWebHashHistory(),

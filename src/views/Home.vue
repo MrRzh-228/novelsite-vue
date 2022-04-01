@@ -1,13 +1,10 @@
-<script>
+<script setup>
 import Carousel from '../components/Carousel.vue'
 import ClassifyList from '../components/ClassifyList.vue'
 import Header from '../components/Header.vue'
+import TopNav from '../components/TopNav.vue'
 
-export default {
-  name: "App",
-  components: { Carousel, ClassifyList, Header }
-}
-  
+
 </script>
 
 <template>
@@ -20,7 +17,7 @@ export default {
             <el-container>
               <el-aside width="200px"><ClassifyList/></el-aside>
               <el-container>
-                <el-header>Header</el-header>
+                <el-header style="height: 60px;"><TopNav/></el-header>
                 <el-main><Carousel/></el-main>
               </el-container>
             </el-container>
@@ -31,7 +28,7 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style>
 
 @media screen and (min-width: 1000px) {
   .common-layout {
@@ -41,41 +38,41 @@ export default {
   }
 }
 .common-layout .el-header {
+  background-color: #d9ecff;
+  text-align: center;
   height: 100px;
   position: relative;
   padding: 0%;
 }
-/* .common-layout .el-aside {
+.common-layout .el-aside {
   width: 240px;
   color: var(--el-text-color-primary);
   background: #fff !important;
-  border-right: solid 1px #e6e6e6;
+  border-right: solid 1px #e9e9eb;
   box-sizing: border-box;
-} */
+}
 .common-layout .el-main {
   padding: 0%;
-  text-align: center;
+  text-align: left;
   position: relative;
-  background-color: rgb(233,238,243);
+  background-color: white;
   color: var(--el-text-color-primary);
 }
 .common-layout .el-footer {
   text-align: center;
   position: relative;
-  background-color: #b3c0d1;
+  background-color: #e9e9eb;
   color: var(--el-text-color-primary);
 }
 
 .main-layout .el-header {
   text-align: left;
   position: relative;
-  background-color: #e6e6e6;
   color: var(--el-text-color-primary);
 }
 .main-layout .el-aside {
-  width: 200px;
+  width: auto;
   color: var(--el-text-color-primary);
-  background: #fff !important;
   border-right: solid 1px #e6e6e6;
   box-sizing: border-box;
 }

@@ -1,47 +1,35 @@
-<script>
-import axios from "axios"
-import { novel } from "../api"
+<script setup>
+import { onMounted  } from 'vue';
+import { getBanner } from "../api"
 
-  export default {
-    name: 'Carousel',
-    data() {
-      return {
-        items: [
-          {
-            id: 1,
-            title: '李治你别怂',
-            url: '/public/images/1.jpg'
-          },
-          {
-            id: 2,
-            title: '我世袭狱卒',
-            url: '/public/images/2.jpg'
-          },
-          {
-            id: 3,
-            title: '我世袭狱卒',
-            url: '/public/images/3.jpg'
-          },
-          {
-            id: 4,
-            title: '美综大枭雄',
-            url: '/public/images/4.jpg'
-          }
-        ],
-        info: '',
-      }
-    },
-    mounted() {
-      novel().then(res => console.log(res)).catch(err => console.log(err))
-    },
-  }
+const book = []
+
+const init = () => {
+  getBanner()
+  .then(res => {
+    for(var i=0;i<res.length;i++) {
+      let obj = {
+        id: res[i].id,
+        title: res[i].novel.novel_name,
+        url: res[i].image,
+        index: res[i].index
+      };
+      book.push(obj);
+    }
+    console.log(book)
+  })
+  .catch(err => console.log(err))
+}
+
+onMounted(() => {
+    init()
+});
+
 </script>
-
-
 
 <template>
   <el-carousel :interval="5000" arrow="always">
-    <el-carousel-item v-for="item in items" :key="item" :label="item.title">
+    <el-carousel-item v-for="item in book" :key="item.id" :label="item.title">
       <el-image :alt="item.title" :src="item.url" />
     </el-carousel-item>
   </el-carousel>

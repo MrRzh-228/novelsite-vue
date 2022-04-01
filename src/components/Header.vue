@@ -18,7 +18,7 @@ const isShow = !userinfo
   <el-row class="row-bg" justify="space-between">
       <el-col :span="6">
           <div>
-              <el-image alt="logo" src="/public/images/1.jpg" style="width: 240; height: 80px;"/>
+                <el-image src="../public/images/1.jpg" style="width: 240; height: 80px;"/>
           </div>
       </el-col>
       <el-col :span="6">
@@ -51,7 +51,7 @@ const isShow = !userinfo
   </el-row>
 </template>
 
-<style>
+<style scoped>
 .row-bg {
   padding: 10px 0;
   background-color: #b3c0d1;

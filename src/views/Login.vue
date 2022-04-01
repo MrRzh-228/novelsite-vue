@@ -74,7 +74,7 @@ const loginFormRules = ref({
               </el-form-item>
               <el-row justify="end">
                 <el-form-item>
-                  <router-link to="/">找回密码</router-link>
+                  <router-link to="/" style="margin-right: 5px;">找回密码</router-link>
                   <router-link to="/register">立即注册</router-link>
                 </el-form-item>
               </el-row>
@@ -89,28 +89,11 @@ const loginFormRules = ref({
 </template>
  
 <style lang="less" scoped>
-@media screen and (min-width: 1000px) {
-  .common-layout {
-    width: 1200px;
-    height: auto;
-    margin: 0 auto;
-  }
-}
 .login_container {
   background-color: rgb(252, 248, 248);
   height: 100vh;
 }
-.common-layout .el-header {
-  height: 100px;
-  position: relative;
-  padding: 0%;
-}
-.common-layout .el-footer {
-  text-align: center;
-  position: relative;
-  background-color: #b3c0d1;
-  color: var(--el-text-color-primary);
-}
+
 .login_box {
   width: 450px;
   height: 300px;

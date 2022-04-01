@@ -1,22 +1,30 @@
 <script lang="ts" setup>
+// import router from '../router';
 import {
   Document,
   Menu as IconMenu,
   Location,
   Setting,
 } from '@element-plus/icons-vue'
+
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
+
+const openeds = ['1']
 </script>
 
 <template>
 
       <el-menu
-        default-active="2"
+        background-color="#545c64"
+        text-color="#fff"
+        router
+        :default-openeds="openeds"
+        :default-active="$route.path"
         @open="handleOpen"
         @close="handleClose"
       >
@@ -25,13 +33,29 @@ const handleClose = (key: string, keyPath: string[]) => {
             <el-icon><location /></el-icon>
             <span>作品分类</span>
           </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="/xiuzhen">
+              <el-icon><location /></el-icon>
+              <span>修真</span>
+            </el-menu-item>
+            <el-menu-item index="/xuanhuan">
               <el-icon><location /></el-icon>
               <span>玄幻</span>
             </el-menu-item>
-            <el-menu-item index="1-2">
+            <el-menu-item index="/dushi">
               <el-icon><location /></el-icon>
-              <span>修仙</span>
+              <span>都市</span>
+            </el-menu-item>
+            <el-menu-item index="/chuanyue">
+              <el-icon><location /></el-icon>
+              <span>穿越</span>
+            </el-menu-item>
+            <el-menu-item index="/wangyou">
+              <el-icon><location /></el-icon>
+              <span>网游</span>
+            </el-menu-item>
+            <el-menu-item index="/kehuan">
+              <el-icon><location /></el-icon>
+              <span>科幻</span>
             </el-menu-item>
         </el-sub-menu>
 
@@ -39,15 +63,13 @@ const handleClose = (key: string, keyPath: string[]) => {
 
 </template>
 
-<style>
-/* .el-menu {
-    background-color: rgb(49,48,53);
-} */
+<style scoped>
+.el-menu {
+  width: auto;
+}
 
-.el-menu .el-menu-item:nth-child(2n) {
-    background-color: rgb(247,246,242);
+.el-menu .el-menu-item {
+  width: auto;
 }
-.el-menu .el-menu-item:nth-child(2n+1) {
-    background-color: rgb(252,252,250);
-}
+
 </style>
