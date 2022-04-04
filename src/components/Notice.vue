@@ -23,16 +23,16 @@
         <div>
             <ul style="padding: 0;">
                 <li>
-                    <el-link href="https://acts.yuewen.com/2021/20210302/index.html">「资讯」优秀网络文艺专栏</el-link>
+                    <el-link :underline="false" href="https://acts.yuewen.com/2021/20210302/index.html">「资讯」优秀网络文艺专栏</el-link>
                 </li>
                 <li>
-                    <el-link href="https://acts.qidian.com/2021/210525/index.html">「资讯」第六届现实征文大赛</el-link>
+                    <el-link :underline="false" href="https://acts.qidian.com/2021/210525/index.html">「资讯」第六届现实征文大赛</el-link>
                 </li>
                 <li>
-                    <el-link href="https://acts.qidian.com/2021/20210423/index.html">「资讯」“百年风华”专栏上线</el-link>
+                    <el-link :underline="false" href="https://acts.qidian.com/2021/20210423/index.html">「资讯」“百年风华”专栏上线</el-link>
                 </li>
                 <li>
-                    <el-link href="https://www.qidian.com/news/detail/068893553">「公告」玄幻王者征文获奖名单</el-link>
+                    <el-link :underline="false" href="https://www.qidian.com/news/detail/068893553">「公告」玄幻王者征文获奖名单</el-link>
                 </li>
             </ul>
         </div>

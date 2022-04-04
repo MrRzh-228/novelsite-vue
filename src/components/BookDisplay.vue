@@ -98,7 +98,6 @@ onMounted(() => {
     margin: 5px 0 0;
     font-weight: lighter;
     font-size: small;
-
     overflow:hidden;
     text-overflow:ellipsis;
     display: -webkit-box;
@@ -112,10 +111,12 @@ onMounted(() => {
 }
 .state-box p {
     margin: 3px auto;
-    
     font-weight: lighter;
     font-size: small;
     color: rgb(166,166,166);
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
 </style>
     
