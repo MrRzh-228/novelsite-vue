@@ -1,10 +1,14 @@
-<script setup>
+<script>
 import Carousel from '../components/Carousel.vue'
 import ClassifyList from '../components/ClassifyList.vue'
 import Header from '../components/Header.vue'
 import TopNav from '../components/TopNav.vue'
 
-
+export default {
+  name: "App",
+  components: { Carousel, ClassifyList, Header, TopNav }
+}
+  
 </script>
 
 <template>

@@ -13,20 +13,19 @@ const book = ref([]);
 
 const init = () => {
     const param = {
-        novel_category: props.category,
+        // novel_category: props.category,
         ordering: '-update_time'
     }
     getNovel(param)
     .then(res => {
         book.value=res.results;
         tiemDiff(book);
-        console.log(book)
     })
     .catch(err => console.log(err))
 };
 
 const tiemDiff = (book) => {
-    for (var i=0;i<book.value.length;i++) {
+    for (var i=0;i<10;i++) {
         let date = new Date();
         let date1 = new Date(book.value[i].update_time)
         let minute = (date.getTime() - date1.getTime()) / 1000 / 60;
@@ -35,9 +34,9 @@ const tiemDiff = (book) => {
         } else if (60 > parseInt(minute) > 0) {
             book.value[i].update_time =  parseInt(minute) + '分钟前';
         } else if (24 > parseInt(minute / 60) >= 1) {
-            book.value[i].update_time = parseInt(minute / 60) + '小时' + (parseInt(minute - parseInt(minute / 60) * 60) === 0 ? "" : parseInt(minute - parseInt(minute / 60) * 60) + '分钟') + "前";
+            book.value[i].update_time = parseInt(minute / 60) + '小时前';
         } else {
-            book.value[i].update_time = parseInt(minute / 60 / 24) + '天' + (parseInt(minute / 60) - parseInt(minute / 60 / 24) * 24) + '小时' + parseInt(minute - parseInt(minute / 60) * 60) + '分钟前'
+            book.value[i].update_time = parseInt(minute / 60 / 24) + '天前'
         }
     }
 }
@@ -51,9 +50,9 @@ onMounted(() => {
 <template>
   <!-- <span style="text-align: center">最近更新</span> -->
   <div class="table-wrapper">
-    <el-table :data="book" style="width: 100%">
-        <el-table-column prop="novel_name" label="最近更新" />
-        <el-table-column prop="update_time" label="上次更新" />
+    <el-table :data="book" style="width: 280px; height: 490px;">
+        <el-table-column prop="novel_name" label="最近更新" :show-overflow-tooltip="true"/>
+        <el-table-column prop="update_time" label="上次更新" width="100px" :show-overflow-tooltip="true"/>
     </el-table>
   </div>
 </template>

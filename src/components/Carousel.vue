@@ -1,14 +1,14 @@
 <script setup>
-import { onMounted  } from 'vue';
+import { reactive, onMounted } from 'vue';
 import { getBanner } from "../api"
 
-const book = []
+const book = reactive([])
 
 const init = () => {
   getBanner()
   .then(res => {
     for(var i=0;i<res.length;i++) {
-      let obj = {
+      const obj = {
         id: res[i].id,
         title: res[i].novel.novel_name,
         url: res[i].image,
@@ -19,7 +19,7 @@ const init = () => {
     console.log(book)
   })
   .catch(err => console.log(err))
-}
+};
 
 onMounted(() => {
     init()

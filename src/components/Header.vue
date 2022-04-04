@@ -4,6 +4,9 @@ import { Search } from '@element-plus/icons-vue'
 import router from '../router'
 
 const input = ref('');
+// const ToHome = () => {
+//     router.push('/')
+// }
 const logout = () => {
     window.localStorage.clear()
     window.location.reload()
@@ -18,7 +21,9 @@ const isShow = !userinfo
   <el-row class="row-bg" justify="space-between">
       <el-col :span="6">
           <div>
-                <el-image src="../public/images/1.jpg" style="width: 240; height: 80px;"/>
+            <router-link to="/">
+                <el-image alt="logo" src="/public/images/1.jpg" style="width: 240; height: 80px;"/>
+            </router-link>
           </div>
       </el-col>
       <el-col :span="6">

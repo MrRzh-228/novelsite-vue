@@ -36,6 +36,16 @@ const routes = [
         },
         component: () => import("../views/CategoryInfo.vue")
     },
+    {
+        path: "/book",
+        name: "book",
+        meta: {
+            title: "小说",
+            keepAlive: true
+        },
+        component: () => import("../components/BookDisplay.vue")
+    },
+    
 ];
 const router = createRouter({
     history: createWebHashHistory(),

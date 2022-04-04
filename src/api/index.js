@@ -1,8 +1,8 @@
 import request from "../utils/request"
 
-export function getAllnovel() {
+export function getNovelById(id) {
     return request({
-        url: "/novel/novel",
+        url: "/novel/novel/" + id,
         method: "get"
     });
 }
@@ -15,11 +15,10 @@ export function getNovel(params) {
     });
 }
 
-export function getBanner(params) {
+export function getBanner() {
     return request({
         url: "/novel/banner",
-        method: "get",
-        params: params
+        method: "get"
     });
 }
 
