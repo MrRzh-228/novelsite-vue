@@ -28,10 +28,79 @@ const routes = [
         component: () => import("../views/Register.vue")
     },
     {
+        path: "/info/:id",
+        name: "bookInfo",
+        meta: {
+            title: "小说详情",
+            keepAlive: true
+        },
+        component: () => import("../views/BookInfo.vue")
+    },
+    {
+        path: "/chapter/:bookid/:id",
+        name: "chapterInfo",
+        meta: {
+            title: "章节详情",
+            keepAlive: true
+        },
+        component: () => import("../views/ChapterInfo.vue")
+    },
+    {
+        path: "/xiuzhen",
+        name: "xiuzhen",
+        meta: {
+            id: 14,
+            title: "修真",
+            keepAlive: true
+        },
+        component: () => import("../views/CategoryInfo.vue")
+    },
+    {
         path: "/xuanhuan",
         name: "xuanhuan",
         meta: {
+            id: 13,
             title: "玄幻",
+            keepAlive: true
+        },
+        component: () => import("../views/CategoryInfo.vue")
+    },
+    {
+        path: "/dushi",
+        name: "dushi",
+        meta: {
+            id: 12,
+            title: "都市",
+            keepAlive: true
+        },
+        component: () => import("../views/CategoryInfo.vue")
+    },
+    {
+        path: "/chuanyue",
+        name: "chuanyue",
+        meta: {
+            id: 11,
+            title: "穿越",
+            keepAlive: true
+        },
+        component: () => import("../views/CategoryInfo.vue")
+    },
+    {
+        path: "/wangyou",
+        name: "wangyou",
+        meta: {
+            id: 10,
+            title: "网游",
+            keepAlive: true
+        },
+        component: () => import("../views/CategoryInfo.vue")
+    },
+    {
+        path: "/kehuan",
+        name: "kehuan",
+        meta: {
+            id: 9,
+            title: "科幻",
             keepAlive: true
         },
         component: () => import("../views/CategoryInfo.vue")

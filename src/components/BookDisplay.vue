@@ -41,7 +41,7 @@ const init = () => {
         } else {
             book.tag2 = '修真'
         }
-        console.log(book)
+        // console.log(res)
     })
     .catch(err => console.log(err)) 
 }
@@ -55,13 +55,13 @@ onMounted(() => {
   <div>
       <el-row class="book-info">
           <el-col :span="8">
-            <router-link to="/">
+            <router-link :to="`/info/${bookid}`">
                 <el-image alt="" :src=book.cover style="width: auto; height: 100px;"/>
             </router-link>
           </el-col>
           <el-col :span="16">
             <div class="book-up">
-                <p>{{ book.name }}</p>
+                <router-link :to="`/info/${bookid}`"><p>{{ book.name }}</p></router-link>
                 <p>{{ book.intro }}</p>
             </div>
             <el-row class="state-box" :gutter="10" justify="space-between" >
@@ -93,6 +93,9 @@ onMounted(() => {
     font-weight: bloder;
     font-size: large;
     color: #000000;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
 .book-up p:nth-child(2) {
     margin: 5px 0 0;
@@ -110,13 +113,19 @@ onMounted(() => {
     bottom: 5px;
 }
 .state-box p {
-    margin: 3px auto;
-    font-weight: lighter;
-    font-size: small;
-    color: rgb(166,166,166);
-    overflow: hidden;
-    text-overflow:ellipsis;
-    white-space: nowrap;
+  margin: 3px auto;
+  font-weight: lighter;
+  font-size: small;
+  color: rgb(166,166,166);
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+a {
+  text-decoration: none;
+}
+.router-link-active {
+  text-decoration: none;
 }
 </style>
     

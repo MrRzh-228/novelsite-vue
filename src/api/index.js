@@ -7,18 +7,41 @@ export function getNovelById(id) {
     });
 }
 
-export function getNovel(params) {
+export function getNovel(param) {
     return request({
-        url: "/novel/novel",
+        url: "/novel/novel/",
         method: "get",
-        params: params
+        params: param
+    });
+}
+
+export function getChapterById(id) {
+    return request({
+        url: "/novel/chapter/" + id,
+        method: "get"
+    });
+}
+
+export function getChapter(param) {
+    return request({
+        url: "/novel/chapter/",
+        method: "get",
+        params: param
     });
 }
 
 export function getBanner() {
     return request({
-        url: "/novel/banner",
+        url: "/novel/banner/",
         method: "get"
+    });
+}
+
+export function getRank(param) {
+    return request({
+        url: "/novel/rank/",
+        method: "get",
+        params: param
     });
 }
 

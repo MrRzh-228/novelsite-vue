@@ -17,7 +17,7 @@ export default {
     <el-container>
       <el-header><Header/></el-header>
       <el-main>
-          <div class="main-layout">
+          <div>
             <el-container>
               <el-aside width="200px"><ClassifyList/></el-aside>
               <el-container>
@@ -33,7 +33,6 @@ export default {
 </template>
 
 <style>
-
 @media screen and (min-width: 1000px) {
   .common-layout {
     width: 1200px;
@@ -42,7 +41,7 @@ export default {
   }
 }
 .common-layout .el-header {
-  background-color: #d9ecff;
+  background-color: white;
   text-align: center;
   height: 100px;
   position: relative;
@@ -52,7 +51,6 @@ export default {
   width: 240px;
   color: var(--el-text-color-primary);
   background: #fff !important;
-  border-right: solid 1px #e9e9eb;
   box-sizing: border-box;
 }
 .common-layout .el-main {
@@ -67,17 +65,5 @@ export default {
   position: relative;
   background-color: #e9e9eb;
   color: var(--el-text-color-primary);
-}
-
-.main-layout .el-header {
-  text-align: left;
-  position: relative;
-  color: var(--el-text-color-primary);
-}
-.main-layout .el-aside {
-  width: auto;
-  color: var(--el-text-color-primary);
-  border-right: solid 1px #e6e6e6;
-  box-sizing: border-box;
 }
 </style>

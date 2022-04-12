@@ -4,7 +4,7 @@ import { getNovel } from "../api";
 
 const props = defineProps({
     category: {
-        type: Number,
+        type: String,
         default: ''
     }
 });
@@ -13,7 +13,7 @@ const book = ref([]);
 
 const init = () => {
     const param = {
-        // novel_category: props.category,
+        novel_category: props.category,
         ordering: '-update_time'
     }
     getNovel(param)
@@ -50,21 +50,21 @@ onMounted(() => {
 <template>
   <!-- <span style="text-align: center">最近更新</span> -->
   <div class="table-wrapper">
-    <el-table :data="book" style="width: 280px; height: 490px;">
+    <el-table :data="book" style="width: auto; height: 450px;">
         <el-table-column prop="novel_name" label="最近更新" :show-overflow-tooltip="true"/>
-        <el-table-column prop="update_time" label="上次更新" width="100px" :show-overflow-tooltip="true"/>
+        <el-table-column prop="update_time" label="更新时间" width="100px" :show-overflow-tooltip="true"/>
     </el-table>
   </div>
 </template>
 
 <style lang='scss' scoped>
 .table-wrapper {
-   height: 80%;;
-   margin-top: 10px;
-   ::v-deep .el-table--enable-row-hover .el-table__body tr:hover > td {
-     background-color:  rgb(247,246,242);
-     color: rgb(237,66,89);
-   }
+  height: 490px;
+  margin-top: 10px;
+  ::v-deep .el-table--enable-row-hover .el-table__body tr:hover > td {
+    background-color:  rgb(247,246,242);
+    color: rgb(237,66,89);
+  }
 }
 .table-wrapper ::v-deep .el-table::before {
   left: 0;

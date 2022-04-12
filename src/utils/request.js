@@ -3,7 +3,7 @@ import router from "../router"
 let baseURL = "http://127.0.0.1:8000/api";
 const service = axios.create({
     baseURL,
-    timeout: 5000
+    timeout: 8000
 });
 
 service.interceptors.request.use(

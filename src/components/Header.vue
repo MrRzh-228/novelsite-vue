@@ -22,7 +22,7 @@ const isShow = !userinfo
       <el-col :span="6">
           <div>
             <router-link to="/">
-                <el-image alt="logo" src="/public/images/1.jpg" style="width: 240; height: 80px;"/>
+                <el-image alt="logo" src="/logo/logo1_2.png" style="width: 207; height: 65px;"/>
             </router-link>
           </div>
       </el-col>

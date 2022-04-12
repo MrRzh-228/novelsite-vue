@@ -1,7 +1,6 @@
 <script setup>
 import { reactive, onMounted  } from 'vue';
 import { getNovel } from "../api";
-import Carousel from '../components/Carousel.vue';
 
 const props = defineProps({
     category: {
@@ -19,14 +18,14 @@ const init = () => {
     getNovel(param)
     .then(res => {
         for(var i=0;i<4;i++) {
-        const obj = {
-            id: res.results[0].id,
-            title: res.results[i].novel_name,
-            cover: res.results[i].cover
-        };
-        book.push(obj);
+          const obj = {
+              id: res.results[i].id,
+              title: res.results[i].novel_name,
+              cover: res.results[i].cover
+          };
+          book.push(obj);
         }
-        console.log(res)
+        // console.log(res)
     })
     .catch(err => console.log(err))
 };
@@ -58,7 +57,7 @@ onMounted(() => {
           :span="6"
         >
           <el-card :body-style="{ padding: '0px' }">
-            <img class="image" :src="item.cover" style="height: 100%;"/>
+            <img class="image" :src="item.cover" style="height: 150px;"/>
             <div style="padding: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;">
               <span>{{ item.title }}</span>
             </div>
