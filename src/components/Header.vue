@@ -3,17 +3,18 @@ import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import router from '../router'
 
-const input = ref('');
-// const ToHome = () => {
-//     router.push('/')
-// }
+const searchWord = ref('');
+
 const logout = () => {
     window.localStorage.clear()
     window.location.reload()
-    console.log(window.localStorage.getItem("userinfo"))
 }
 let userinfo = window.localStorage.getItem("userinfo");
 const isShow = !userinfo
+
+const search = () => {
+    router.push('/search')
+}
 
 </script>
 
@@ -29,13 +30,13 @@ const isShow = !userinfo
       <el-col :span="6">
           <div>
             <el-input
-            v-model="input"
-            placeholder="Please input"
+            v-model="searchWord"
+            placeholder="搜索你喜爱的书籍"
             class="input-with-button"
             size="large"
             >
             <template #append>
-                <el-button :icon="Search" />
+                <el-button :icon="Search" @click="search"/>
             </template>
             </el-input>
           </div>
@@ -43,13 +44,13 @@ const isShow = !userinfo
 
       <el-col :span="2">
           <div>
-              <el-button size="large" type="info" plain class="btn">我的书架</el-button>
+              <el-button size="large" type="info" plain class="btn" @click="router.push('/space')">我的书架</el-button>
           </div>
       </el-col>
       <el-col :span="3">
           <div>
             <router-link to="/login" v-if="isShow">登录/注册</router-link>         
-            <router-link to="/">{{ userinfo }}</router-link>
+            <router-link to="/space">{{ userinfo }}</router-link>
             <el-button type="text" @click="logout" v-if="userinfo" style="color: black;">退出</el-button>
           </div>
       </el-col>

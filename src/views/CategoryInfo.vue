@@ -30,10 +30,14 @@ const init = () => {
         for(var i=0;i<res.results.length;i++) {
           bookList[i] = res.results[i].id
         }
-        useNovel.updateCategoryName(book.title, proxy.$route.path)    
+        useNovel.updateCategoryName(book.title, proxy.$route.path)
+        useNovel.$subscribe((mutation, state) => {
+          sessionStorage.setItem('NovelStore', JSON.stringify(state))
+        })
     })
     .catch(err => console.log(err))
 }
+
 // watch (
 //   () => proxy.$route,
 //   (to,from) => {
@@ -52,22 +56,19 @@ onMounted(() => {
       <el-header><Header/></el-header>
       <el-main>
         <div class="top-option">
-          <el-link :underline="false">排行</el-link>
+          <el-link :underline="false" href="/">排行</el-link>
           <el-divider direction="vertical" />
-          <el-link :underline="false">完本</el-link>
+          <el-link :underline="false" href="/">完本</el-link>
           <el-divider direction="vertical" />
-          <el-link :underline="false">免费</el-link>
+          <el-link :underline="false" href="/">免费</el-link>
           <el-divider direction="vertical" />
-          <router-link to="/info/128">Go to Home</router-link>
-          <el-divider direction="vertical" />
-          <router-link to="/info/129">Go to 129</router-link>
         </div>
         <el-divider />
         <div>
           <el-row :gutter="20" style="width: 100%; margin: 0;">
             
-              <el-col :span="6" ><keep-alive><Recommend :category="book.typeId" /></keep-alive></el-col>
-              <el-col :span="12" style="padding-top: 10px;"><keep-alive><BigList :category="book.typeId"/></keep-alive></el-col>
+              <el-col :span="6" ><keep-alive><Recommend :category=book.typeId /></keep-alive></el-col>
+              <el-col :span="12" style="padding-top: 10px;"><keep-alive><BigList :category=book.typeId /></keep-alive></el-col>
               <el-col :span="6"  style="padding-top: 10px;"><keep-alive><Notice/></keep-alive></el-col>
 
           </el-row>
@@ -81,38 +82,38 @@ onMounted(() => {
             <ul class="hidden-md-and-down" style="padding: 0;list-style-type: none;">
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="8" v-for="item in bookList.slice(0,3)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="8" v-for="item in bookList.slice(0,3)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
               <el-divider border-style="dashed" />
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="8" v-for="item in bookList.slice(3,6)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="8" v-for="item in bookList.slice(3,6)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
               <el-divider border-style="dashed" />
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="8" v-for="item in bookList.slice(6,9)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="8" v-for="item in bookList.slice(6,9)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
             </ul>
             <ul class="hidden-md-and-up" style="padding: 0;list-style-type: none;">
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="12" v-for="item in bookList.slice(0,2)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="12" v-for="item in bookList.slice(0,2)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
               <el-divider border-style="dashed" />
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="12" v-for="item in bookList.slice(2,4)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="12" v-for="item in bookList.slice(2,4)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
               <el-divider border-style="dashed" />
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="12" v-for="item in bookList.slice(4,6)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="12" v-for="item in bookList.slice(4,6)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
             </ul>
@@ -121,7 +122,7 @@ onMounted(() => {
         <el-aside>
           <h3>{{ book.title }}月票榜</h3>
           <el-divider style="margin-bottom: 10px;" />
-          <div><Rank :category="book.typeId" :msg="{category: book.typeId,rank_type:'monthly'}" /></div>
+          <div><Rank :msg="{category: book.typeId,rank_type:'monthly'}" /></div>
         </el-aside>
       </el-container>
       <el-container>
@@ -132,38 +133,38 @@ onMounted(() => {
             <ul class="hidden-md-and-down" style="padding: 0;list-style-type: none;">
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="8" v-for="item in bookList.slice(9,12)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="8" v-for="item in bookList.slice(9,12)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
               <el-divider border-style="dashed" />
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="8" v-for="item in bookList.slice(12,15)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="8" v-for="item in bookList.slice(12,15)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
               <el-divider border-style="dashed" />
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="8" v-for="item in bookList.slice(15,18)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="8" v-for="item in bookList.slice(15,18)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
             </ul>
             <ul class="hidden-md-and-up" style="padding: 0;list-style-type: none;">
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="12" v-for="item in bookList.slice(9,11)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="12" v-for="item in bookList.slice(9,11)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
               <el-divider border-style="dashed" />
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="12" v-for="item in bookList.slice(11,13)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="12" v-for="item in bookList.slice(11,13)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
               <el-divider border-style="dashed" />
               <li>
                 <el-row justify="space-between">
-                  <el-col :span="12" v-for="item in bookList.slice(13,15)"><BookDisplay :bookid="item" /></el-col>
+                  <el-col :span="12" v-for="item in bookList.slice(13,15)"><BookDisplay :bookid=item /></el-col>
                 </el-row>
               </li>
             </ul>
@@ -175,7 +176,6 @@ onMounted(() => {
           <div><Rank :category="book.typeId" :msg="{category: book.typeId,rank_type:'collect'}" /></div>
         </el-aside>
       </el-container>
-      <el-footer>Footer</el-footer>
     </el-container>
   </div>
 </template>

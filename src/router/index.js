@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 const routes = [
     {
         path: "/",
-        name: "Home",
+        name: "home",
         meta: {
             title: "首页",
             keepAlive: true
@@ -14,7 +14,7 @@ const routes = [
         name: "Login",
         meta: {
             title: "登录",
-            keepAlive: true
+            keepAlive: false
         },
         component: () => import("../views/Login.vue")
     },
@@ -23,9 +23,29 @@ const routes = [
         name: "Register",
         meta: {
             title: "注册",
-            keepAlive: true
+            keepAlive: false
         },
         component: () => import("../views/Register.vue")
+    },
+    {
+        path: "/space",
+        name: "space",
+        meta: {
+            id: 9,
+            title: "个人中心",
+            keepAlive: false
+        },
+        component: () => import("../views/Personal.vue")
+    },
+    {
+        path: "/recharge",
+        name: "recharge",
+        meta: {
+            id: 9,
+            title: "充值中心",
+            keepAlive: false
+        },
+        component: () => import("../views/Recharge.vue")
     },
     {
         path: "/info/:id",
@@ -37,11 +57,11 @@ const routes = [
         component: () => import("../views/BookInfo.vue")
     },
     {
-        path: "/chapter/:bookid/:id",
+        path: "/chapter/:bookid/:index",
         name: "chapterInfo",
         meta: {
             title: "章节详情",
-            keepAlive: true
+            keepAlive: false
         },
         component: () => import("../views/ChapterInfo.vue")
     },
@@ -51,7 +71,7 @@ const routes = [
         meta: {
             id: 14,
             title: "修真",
-            keepAlive: true
+            keepAlive: false
         },
         component: () => import("../views/CategoryInfo.vue")
     },
@@ -61,7 +81,7 @@ const routes = [
         meta: {
             id: 13,
             title: "玄幻",
-            keepAlive: true
+            keepAlive: false
         },
         component: () => import("../views/CategoryInfo.vue")
     },
@@ -71,7 +91,7 @@ const routes = [
         meta: {
             id: 12,
             title: "都市",
-            keepAlive: true
+            keepAlive: false
         },
         component: () => import("../views/CategoryInfo.vue")
     },
@@ -81,7 +101,7 @@ const routes = [
         meta: {
             id: 11,
             title: "穿越",
-            keepAlive: true
+            keepAlive: false
         },
         component: () => import("../views/CategoryInfo.vue")
     },
@@ -91,7 +111,7 @@ const routes = [
         meta: {
             id: 10,
             title: "网游",
-            keepAlive: true
+            keepAlive: false
         },
         component: () => import("../views/CategoryInfo.vue")
     },
@@ -101,20 +121,37 @@ const routes = [
         meta: {
             id: 9,
             title: "科幻",
-            keepAlive: true
+            keepAlive: false
         },
         component: () => import("../views/CategoryInfo.vue")
     },
     {
-        path: "/book",
-        name: "book",
+        path: "/write",
+        name: "write",
         meta: {
-            title: "小说",
-            keepAlive: true
+            title: "作家专区",
+            keepAlive: false
         },
-        component: () => import("../components/BookDisplay.vue")
+        component: () => import("../views/Author.vue")
     },
-    
+    {
+        path: "/portal/:id",
+        name: "portal",
+        meta: {
+            title: "创作小说",
+            keepAlive: false
+        },
+        component: () => import("../views/EditBook.vue")
+    },
+    {
+        path: "/search",
+        name: "search",
+        meta: {
+            title: "搜索",
+            keepAlive: false
+        },
+        component: () => import("../views/Search.vue")
+    },
 ];
 const router = createRouter({
     history: createWebHashHistory(),

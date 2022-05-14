@@ -4,8 +4,8 @@ import { getNovelById } from "../api";
 
 const props = defineProps({
     bookid: {
-        type: String,
-        default: '148'
+        type: Number,
+        default: 148
     }
 });
 
@@ -22,25 +22,13 @@ const init = () => {
     getNovelById(props.bookid)
     .then(res => {
         book.name = res.novel_name
-        book.author = res.novel_author.writer_name
+        book.author = res.novel_author
         book.cover = res.cover
         book.intro = res.intro
+        book.tag2 = res.novel_category
         if (res.status) {
             book.tag1 = '连载'
         } else { book.tag1 = '完结' }
-        if (res.novel_category == 9) {
-            book.tag2 = '科幻'
-        } else if (res.novel_category == 10) {
-            book.tag2 = '网游'
-        } else if (res.novel_category == 11) {
-            book.tag2 = '穿越'
-        } else if (res.novel_category == 12) {
-            book.tag2 = '都市'
-        } else if (res.novel_category == 13) {
-            book.tag2 = '玄幻'
-        } else {
-            book.tag2 = '修真'
-        }
         // console.log(res)
     })
     .catch(err => console.log(err)) 
@@ -56,7 +44,7 @@ onMounted(() => {
       <el-row class="book-info">
           <el-col :span="8">
             <router-link :to="`/info/${bookid}`">
-                <el-image alt="" :src=book.cover style="width: auto; height: 100px;"/>
+                <el-image alt="" :src=book.cover style="width: 75px; height: 100px;"/>
             </router-link>
           </el-col>
           <el-col :span="16">

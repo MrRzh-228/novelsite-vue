@@ -1,8 +1,10 @@
 <script setup>
 import router from '../router';
 import { login } from '../api';
-import { ref } from 'vue'
+import { ref } from 'vue';
+import { useUserStore } from '../store/user';
 
+const useUser = useUserStore()
 const loginForm = ref()
 
 const loginFormObj = {
@@ -15,6 +17,7 @@ const loginFormData = ref({loginFormObj})
 const onSubmit = () => {
   loginForm.value.validate((valid) => {
     if(valid) {
+      console.log(loginFormData.value)
       login(loginFormData.value)
       .then(res => {
         console.log(res)
@@ -24,10 +27,12 @@ const onSubmit = () => {
         localStorage.setItem("accessToken", accesstoken);
         localStorage.setItem("refreshToken", refreshtoken);
         localStorage.setItem("userinfo", userinfo);
+        useUser.updateAccessToken(accesstoken);
+        useUser.updateRefreshToken(refreshtoken);
         router.replace({
           path: '/'
         })
-        })
+      })
       .catch(error => console.log(error))
     } else {
       console.log('error submit')

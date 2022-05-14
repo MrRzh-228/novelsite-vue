@@ -1,33 +1,63 @@
-<script>
+<script setup>
+import { ref, reactive, onMounted } from 'vue'
 import Carousel from '../components/Carousel.vue'
 import ClassifyList from '../components/ClassifyList.vue'
 import Header from '../components/Header.vue'
 import TopNav from '../components/TopNav.vue'
+import ShowBook from '../components/ShowBook.vue'
+import ShowRank from '../components/ShowRank.vue'
+import router from '../router'
+import Rank from '../components/Rank.vue';
+import HomeList from '../components/HomeList.vue';
 
-export default {
-  name: "App",
-  components: { Carousel, ClassifyList, Header, TopNav }
+const showMain = ref('home')
+
+const switchNav = (data) => {
+  if(data == 'write') {
+    router.push('/write')
+  } else if (data == 'search') {
+    router.push('/search')
+  } else {
+    showMain.value = data
+  }
 }
-  
 </script>
 
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <div class="common-layout">
     <el-container>
       <el-header><Header/></el-header>
       <el-main>
-          <div>
-            <el-container>
-              <el-aside width="200px"><ClassifyList/></el-aside>
-              <el-container>
-                <el-header style="height: 60px;"><TopNav/></el-header>
-                <el-main><Carousel/></el-main>
-              </el-container>
-            </el-container>
-          </div>
+        <el-row>
+          <el-col :span="6">
+            <ClassifyList />
+          </el-col>
+          <el-col :span="18">
+            <TopNav @showNav="switchNav"/>
+            <Carousel v-if="showMain=='home'" />
+            <ShowBook v-else-if="showMain=='all'" :msg="showMain"/>
+            <ShowBook v-else-if="showMain=='end'" :msg="showMain"/>
+            <ShowBook v-else-if="showMain=='free'" :msg="showMain"/>
+            <ShowRank v-else-if="showMain=='rank'" />
+          </el-col>
+        </el-row>
+        <div style="padding: 30px 0;" v-if="showMain=='home'">
+          <el-row>
+            <el-col :span="6">
+              <Rank :msg="{category: '' ,rank_type:'monthly'}" />
+            </el-col>
+            <el-col :span="12">
+              <div>
+                <HomeList />
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <Rank :msg="{category: '' ,rank_type:'rcommend'}" />
+            </el-col>
+          </el-row>
+        </div>
       </el-main>
-      <el-footer>Footer</el-footer>
+      <!-- <el-footer>Footer</el-footer> -->
     </el-container>
   </div>
 </template>

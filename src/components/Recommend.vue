@@ -4,8 +4,8 @@ import { getNovel } from "../api";
 
 const props = defineProps({
     category: {
-        type: String,
-        default: ''
+        type: Number,
+        default: 0
     }
 });
 

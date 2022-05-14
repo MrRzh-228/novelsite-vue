@@ -21,11 +21,21 @@ export default {
 
 <template>
   <div id="app">
-    <router-view :key="$route.fullPath">
+    <!-- <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath">
+      </router-view>
+    </keep-alive> -->
+
+    <router-view v-slot="{ Component }">
+      <keep-alive v-if="$route.meta.keepAlive" :key="$route.fullPath">
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
+
+    <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath">
     </router-view>
   </div>
 </template>
 
 <style scoped>
-
 </style>

@@ -23,6 +23,9 @@ const getOrdering = (r, param) => {
         param.ordering = '-col_num';
     } else if (r=='comment') {
         param.ordering = '-com_num';
+    } else if (r=='free') {
+        param.ordering = '-col_num';
+        param.is_free = true;
     } else {
         param.ordering = 'joined_time';
     } 
@@ -31,7 +34,8 @@ const getOrdering = (r, param) => {
 const init = () => {
     const param = {
         novel_category: props.msg.category,
-        ordering: ''
+        ordering: '',
+        is_free: ''
     };
 
     getOrdering(props.msg.rank_type, param);
@@ -42,7 +46,7 @@ const init = () => {
               id: res.results[i].id,
               name: res.results[i].novel_name,
               cover: res.results[i].cover,
-              author: res.results[i].novel_author.writer_name,
+              author: res.results[i].novel_author,
               col_num: res.results[i].col_num,
               com_num: res.results[i].com_num,
               mon_tk_num: res.results[i].mon_tk_num,
@@ -95,20 +99,29 @@ onMounted(() => {
                 <el-row justify="space-between">
                     <el-col :span="14">
                         <ul class="ul-info" >
-                            <li style="top: 0px; "><img style="height: 20px; width: auto;" :src="iconList[scope.$index]" /></li>
-                            <li style="top: 25%; font-size: medium;"><a>{{ scope.row.name }}</a></li>
+                            <li style="top: 0px; ">
+                                <img style="height: 20px; width: auto;" :src="iconList[scope.$index]" />
+                            </li>
+                            <li style="top: 25%; font-size: medium;">
+                              <router-link :to="`/info/${scope.row.id}`">
+                                <a>{{ scope.row.name }}</a>
+                              </router-link>
+                            </li>
                             <li style="top: 50%; color: rgb(191,44,36); font-size: medium;">
                               <a v-if="msg.rank_type == 'rcommend'">{{ scope.row.rcom_tk_num }}推荐</a>
                               <a v-else-if="msg.rank_type == 'monthly'">{{ scope.row.mon_tk_num }}月票</a>
                               <a v-else-if="msg.rank_type == 'collect'">{{ scope.row.col_num }}收藏</a>
                               <a v-else-if="msg.rank_type == 'comment'">{{ scope.row.com_num }}讨论</a>
+                              <a v-else-if="msg.rank_type == 'free'">{{ scope.row.col_num}}收藏</a>
                               <a v-else > - </a>
                             </li>
                             <li style="top: 75%; color: rgb(179,179,179); font-size: small;"><a>{{ scope.row.author }}</a></li>
                         </ul>
                     </el-col>
                     <el-col :span="10">
+                      <router-link :to="`/info/${book[0].id}`">
                         <img style="height: 100px;width: auto;" :src="book[0].cover" />
+                      </router-link>
                     </el-col>
                 </el-row>
               </span>
@@ -117,9 +130,10 @@ onMounted(() => {
         </el-table-column>
         <el-table-column prop="name" :show-overflow-tooltip="true"/>
         <el-table-column v-if="msg.rank_type == 'rcommend'" prop="rcom_tk_num" width="55px" :show-overflow-tooltip="true" />
-        <el-table-column v-else-if="msg.rank_type == 'monthly'" prop="rcom_tk_num" width="55px" :show-overflow-tooltip="true" />
-        <el-table-column v-else-if="msg.rank_type == 'collect'" prop="rcom_tk_num" width="55px" :show-overflow-tooltip="true" />
-        <el-table-column v-else-if="msg.rank_type == 'comment'" prop="rcom_tk_num" width="55px" :show-overflow-tooltip="true" />
+        <el-table-column v-else-if="msg.rank_type == 'monthly'" prop="mon_tk_num" width="55px" :show-overflow-tooltip="true" />
+        <el-table-column v-else-if="msg.rank_type == 'collect'" prop="col_num" width="55px" :show-overflow-tooltip="true" />
+        <el-table-column v-else-if="msg.rank_type == 'comment'" prop="com_num" width="55px" :show-overflow-tooltip="true" />
+        <el-table-column v-else-if="msg.rank_type == 'free'" prop="col_num" width="55px" :show-overflow-tooltip="true" />
         <el-table-column v-else width="55px" :show-overflow-tooltip="true" > - </el-table-column>
 
     </el-table>
@@ -140,5 +154,12 @@ onMounted(() => {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+.router-link-active {
+  text-decoration: none;
 }
 </style>

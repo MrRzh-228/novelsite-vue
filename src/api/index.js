@@ -50,7 +50,7 @@ export function login(param) {
         url: "/users/login/",
         method: "post",
         data: param
-    })
+    });
 }
 
 export function code(param) {
@@ -58,7 +58,7 @@ export function code(param) {
         url: "/users/code/",
         method: "post",
         data: param
-    })
+    });
 }
 
 export function register(param) {
@@ -66,5 +66,110 @@ export function register(param) {
         url: "/users/register/",
         method: "post",
         data: param
-    })
+    });
+}
+
+export function getUserInfo() {
+    return request({
+        url: "/users/update/",
+        method: "get"
+    });
+}
+
+export function updateUserInfo(param) {
+    return request({
+        url: "/users/update/",
+        method: "patch",
+        data: param
+    });
+}
+
+export function voteMonthTicket(param) {
+    return request({
+        url: "/user-action/vote-mon/",
+        method: "post",
+        data: param
+    });
+}
+
+export function getVoteMonthTicket(parm) {
+    return request({
+        url: "/user-action/vote-mon/",
+        method: "get"
+    });
+}
+
+export function voteRecommendTicket(param) {
+    return request({
+        url: "/user-action/vote-recom/",
+        method: "post",
+        data: param
+    });
+}
+
+export function getVoteRecommendTicket(param) {
+    return request({
+        url: "/user-action/vote-recom/",
+        method: "get"
+    });
+}
+
+export function getRecent() {
+    return request({
+        url: "/user-action/recent/",
+        method: "get"
+    });
+}
+
+export function getComment() {
+    return request({
+        url: "/user-action/comment/",
+        method: "get"
+    });
+}
+
+export function addBookshelf(param) {
+    return request({
+        url: "/user-action/bookshelf/",
+        method: "post",
+        data: param
+    });
+}
+
+export function getBookshelf() {
+    return request({
+        url: "/user-action/bookshelf/",
+        method: "get"
+    });
+}
+
+export function recharge(param) {
+    return request({
+        url: "/user-action/recharge/",
+        method: "post",
+        data: param
+    });
+}
+
+export function getAuthorInfo() {
+    return request({
+        url: "/users/write/",
+        method: "get"
+    });
+}
+
+export function getOwenrBook(param) {
+    return request({
+        url: "/novel/novel/",
+        method: "get",
+        params: param
+    });
+}
+
+export function createBook(param) {
+    return request({
+        url: "/novel/novel/",
+        method: "post",
+        data: param
+    });
 }

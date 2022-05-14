@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ElMessage } from "element-plus";
 import router from "../router"
 let baseURL = "http://127.0.0.1:8000/api";
 const service = axios.create({
@@ -10,7 +11,7 @@ service.interceptors.request.use(
     config => {
         const token = window.localStorage.getItem("accessToken");
         if (token) {
-            config.headers.common.Authorization = token;
+            config.headers.common.Authorization = 'Bearer '+ token;
         }
         return config
     },
@@ -54,13 +55,37 @@ service.interceptors.response.use(
                     break;
 
                 case 401:
+                    const refreshToken = window.localStorage.getItem("refreshToken");
+                    if(refreshToken) {
+                        try {
+                            const res = axios({
+                                url: 'http://127.0.0.1:8000/api/users/login/refresh/',
+                                method: 'POST',
+                                header: {
+                                    Authorization: 'Bearer '+ refreshToken
+                                }
+                            })
+                            console.log(res)
+                            localStorage.setItem("accessToken", res.data.access);
+                        }
+                        catch (error) {
+                            window.localStorage.clear()
+                            router.push('/login')
+                            return Promise.reject(error)
+                        }
+                    }
+                    else  {
+                        window.localStorage.clear()
+                        router.push('/login')
+                        return Promise.reject(error)
+                    }
+                    break;
+                case 403:
                     ElMessage({
-                        message: '用户名或密码错误',
+                        message: '您还不是vip用户，请先充值',
                         type: 'error',
                     });
-                    // router.replace({
-                    //     path: '/login'
-                    // });
+                    router.replace('/recharge')
                     break;
             }
         }

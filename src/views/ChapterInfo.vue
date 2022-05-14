@@ -2,10 +2,10 @@
 import { reactive, ref, onMounted, getCurrentInstance } from 'vue';
 import { storeToRefs } from 'pinia'
 import { useNovelStore } from '../store/novel'
-import { getChapterById } from "../api";
+import { getChapterById, voteMonthTicket, voteRecommendTicket } from "../api";
 import { ArrowRight, Tickets, Collection, Cellphone, Ticket, Management, EditPen } from '@element-plus/icons-vue'
 import 'element-plus/theme-chalk/display.css'
-import Header from '../components/Header.vue'
+import Header from '../components/Header.vue';
 
 const { proxy } = getCurrentInstance();
 
@@ -22,16 +22,47 @@ const useNovel = useNovelStore()
 const { category, book, author, chapterList } = storeToRefs(useNovel)
 
 const catalogVisible = ref(false)
-const showCatalog = () => {
-    catalogVisible.value = false;
+const VoteFormVisible = ref(false);
+const monthlyTicket = ref(true);
+const recomTicket = ref(false);
+const voteRadio = ref('1')
+const param = ref({
+    novel: '',
+    vote_num: ''
+})
 
+const voteTicket = () => {
+    param.value.novel = book.value.id;
+    param.value.vote_num = voteRadio.value
+
+    if (monthlyTicket.value) {
+        voteMonthTicket(param.value)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => console.log(err))
+    } else if (recomTicket.value) {
+        voteRecommendTicket(param.value)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => console.log(err))
+    } else {
+        console.log('未知错误')
+    }
 }
 
 const init = () => {
-    getChapterById(proxy.$route.params.id)
+    // const param = {
+    //     chapter_novel: book.value.id,
+    //     chapter_num: proxy.$route.params.index
+    // }
+    // getChapter(param)
+    const chapterId =  chapterList.value[proxy.$route.params.index-1].id
+    getChapterById(chapterId)
     .then(res => {
-        Chapter.id = proxy.$route.params.id;
-        Chapter.index = res.chapter_num;
+        Chapter.id = res.id;
+        Chapter.index = proxy.$route.params.index;
         Chapter.name = res.chapter_name;
         Chapter.text = res.chapter_text;
         TextList.value = Chapter.text.split('　　');
@@ -46,6 +77,41 @@ onMounted(() => {
 </script>
 
 <template>
+  <div class="vote">
+    <el-dialog v-model="VoteFormVisible" width="400px">
+        <div>
+            <el-row justify="space-evenly" style="background-color: rgb(255,255,255);">
+                <el-col :span="12"><el-button type="text" @click="monthlyTicket=true; recomTicket=false">月票</el-button></el-col>
+                <el-col :span="12"><el-button type="text" @click="recomTicket=true; monthlyTicket=false">推荐票</el-button></el-col>
+            </el-row>
+            <div style="text-align: center; display:block;">
+                <el-radio-group v-model="voteRadio" size="large">
+                    <ul style="padding: 0;">
+                        <li style="line-height:80px">
+                            <el-row :gutter="50">
+                                <el-col :span="12"><el-radio-button label="1" >一张</el-radio-button></el-col>
+                                <el-col :span="12"><el-radio-button label="2" >两张</el-radio-button></el-col>
+                            </el-row>                      
+                        </li>
+                        <li style="line-height:80px">
+                            <el-row :gutter="50">
+                                <el-col :span="12"><el-radio-button label="3">三张</el-radio-button></el-col>
+                                <el-col :span="12"><el-radio-button label="4">四张</el-radio-button></el-col>
+                            </el-row>  
+                        </li>              
+                    </ul>        
+                </el-radio-group>
+            </div>
+        </div>
+        <template #footer>
+            <div class="vote-commit">
+                <el-button type="danger" @click="voteTicket" v-show="monthlyTicket" style="width: auto;">确认投月票</el-button>
+                <el-button type="danger" @click="voteTicket" v-show="recomTicket" style="width: auto;">确认投推荐票</el-button>
+            </div>
+        </template>
+    </el-dialog>
+  </div>
+
     <div class="chapter-layout">
         <el-container>
         <el-header>
@@ -60,8 +126,8 @@ onMounted(() => {
                       <ul style="padding: 0;list-style-type: none;">
                           <li><el-button :icon="Tickets" @click="catalogVisible = true">目录</el-button></li>
                           <li><el-button :icon="Collection">书架</el-button></li>
-                          <li><el-button :icon="Cellphone">书页</el-button></li>
-                          <li><el-button :icon="Ticket">投票</el-button></li>
+                          <li><router-link :to="book.path"><el-button :icon="Cellphone" >书页</el-button></router-link></li>
+                          <li><el-button :icon="Ticket" @click="VoteFormVisible = true">投票</el-button></li>
                       </ul>
                     </el-affix>
                 </el-aside>
@@ -71,7 +137,7 @@ onMounted(() => {
                             <ul style="padding: 0; list-style-type: none; height: 700px; overflow: auto;" >
                                 <li v-for="(item, index) in Math.ceil(chapterList.length / 2)">
                                 <el-row >
-                                    <el-col :span="12" v-for="itemI in chapterList.slice(index*2,item*2)"><router-link :to="{path:`/chapter/${book.id}/${itemI.id}`}"><a style="font-size: 16px;">{{ itemI.name }}</a></router-link></el-col>
+                                    <el-col :span="12" v-for="itemI in chapterList.slice(index*2,item*2)"><router-link :to="{path:`/chapter/${book.id}/${itemI.index}`}"><a style="font-size: 16px;">{{ itemI.name }}</a></router-link></el-col>
                                 </el-row>
                                 <el-divider style="margin: 15px 0 15px 0;"/>
                                 </li>
@@ -104,9 +170,11 @@ onMounted(() => {
                     </el-main>
                     <el-footer>
                         <el-row style="background-color: rgb(248,243,233);">
-                            <el-col :span="8"><router-link to="/"><p style="width: 100%; font-size: 18px; text-align: center;">上一章</p></router-link></el-col>
+                            <el-col :span="8" v-if="Chapter.index==1"><el-button type="text" disabled style="width: 100%; height: 100%; font-size: 18px; background-color: rgb(248,243,233);">上一章</el-button></el-col>
+                            <el-col :span="8" v-else><router-link :to="{path:`/chapter/${book.id}/${parseInt(Chapter.index)-1}`}"><el-button type="text" style="width: 100%; height: 100%; font-size: 18px;color: black;">上一章</el-button></router-link></el-col>
                             <el-col :span="8"><router-link :to="book.path"><p style="width: 100%; font-size: 18px; text-align: center;">目录</p></router-link></el-col>
-                            <el-col :span="8"><router-link to="/"><p style="width: 100%; font-size: 18px; text-align: center;">下一章</p></router-link></el-col>
+                            <el-col :span="8" v-if="Chapter.index==chapterList.length"><el-button type="text" disabled style="width: 100%; height: 100%; font-size: 18px; background-color: rgb(248,243,233);">下一章</el-button></el-col>
+                            <el-col :span="8" v-else><router-link :to="{path:`/chapter/${book.id}/${parseInt(Chapter.index)+1}`}"><el-button type="text" style="width: 100%; height: 100%; font-size: 18px;color: black;">下一章</el-button></router-link></el-col>
                         </el-row>
                     </el-footer>
                 </el-container>
@@ -128,7 +196,7 @@ onMounted(() => {
     padding: 0;
     background-color: rgb(243,239,232);
 }
-.el-button {
+.el-affix .el-button {
     width: 60px;
     height: 60px;
     background-color: rgb(248,243,233);
@@ -153,15 +221,48 @@ onMounted(() => {
     color: var(--el-text-color-primary);
 }
 a {
+    color: rgb(38,38,38);
     text-decoration: none;
 }
 .router-link-active {
     text-decoration: none;
 }
+
 </style>
 
-<style>
+<style lang="less">
 .el-dialog{  
     background: rgb(250,249,243);  
-}  
+}
+.vote .el-dialog {
+    .el-dialog__header {
+        display: none;
+    }
+    .el-dialog__body {
+        padding: 0;
+    }
+}
+.vote .el-button {
+    width: 100%;
+    color: rgb(166, 166, 166); 
+    background-color: rgb(255,255,255); 
+    font-size: x-large;
+}
+.vote .el-button:focus,.vote .el-button:hover {
+    color: red;
+    background-color: rgb(252,252,250);
+}
+.vote-commit {
+    text-align: center;
+    display: block;
+    .el-button {
+        height: 40px;
+        color: white;
+        background-color: rgb(191,44,36);
+    }
+    .el-button:focus,.el-button:hover {
+        color: white;
+        background-color: rgb(237,66,89);
+    }
+}
 </style>

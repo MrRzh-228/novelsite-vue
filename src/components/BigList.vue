@@ -5,7 +5,7 @@ import { getNovel } from "../api";
 const props = defineProps({
     category: {
         type: Number,
-        default: ''
+        default: 0
     }
 });
 
@@ -41,7 +41,9 @@ onMounted(() => {
       <el-carousel :interval="4000" type="card" height="180px" style="text-align: center;">
         <span>
           <el-carousel-item v-for="item in book" :key="item.id" >
+            <router-link :to="`/info/${item.id}`">
               <el-image :alt="item.title" :src="item.cover" style="width: 160px; height: auto; " />
+            </router-link>
           </el-carousel-item>
         </span>
       </el-carousel>
@@ -57,7 +59,9 @@ onMounted(() => {
           :span="6"
         >
           <el-card :body-style="{ padding: '0px' }">
-            <img class="image" :src="item.cover" style="height: 150px;"/>
+            <router-link :to="`/info/${item.id}`">
+              <img class="image" :src="item.cover" style="height: 150px;"/>
+            </router-link>
             <div style="padding: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;">
               <span>{{ item.title }}</span>
             </div>
